@@ -1,0 +1,17 @@
+name: Create Tag and Release
+
+on:
+  push:
+    branches:
+      - master
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Get tag version
+        id: get_tag
+        run: echo ::set-output name=tag::$(echo $GITHUB_REF | cut -d / -f 4)
+      - name: Print tag version
+        run: echo ${{ steps.get_tag.outputs.tag }}
