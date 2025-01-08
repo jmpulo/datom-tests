@@ -1,7 +1,8 @@
 name: Create Tag and Release
 
 on:
-  push:
+  pull_request:
+    types: [closed]
     branches:
       - main
 jobs:
@@ -10,8 +11,13 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-      - name: Get tag version
-        id: get_tag
-        run: echo "tag=$(echo ${GITHUB_REF#refs/heads/release/})" >> $GITHUB_OUTPUT
-      - name: Print tag version
-        run: echo ${{ steps.get_tag.outputs.tag }}
+
+      - name: Check if PR is merged
+        id: pr_is_merged
+        if: ${{github.event.pull_request.merged == true}}
+        run: echo "This PR is merged"
+
+      - name: Check if PR is not merged
+        id: pr_is_not_merged
+        if: ${{github.event.pull_request.merged == false}}
+        run: echo "This PR is not merged"
