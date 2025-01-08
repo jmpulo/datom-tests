@@ -8,14 +8,23 @@ on:
 jobs:
   set_tag:
     runs-on: ubuntu-latest
+    env:
+      IS_MERGED: ${{ github.event.pull_request.merged }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
 
       - name: Check if PR is merged
         id: pr_is_merged
-        if: ${{github.event.pull_request.merged == true}}
-        run: echo "This PR is merged"
+        if: ${{github.event.pull_request.merged  == true}}
+        run: |
+          echo "This PR is merged, getting the branch name"
+          echo "origin_branch=${{ github.event.pull_request.head.ref }}" >> $GITHUB_OUTPUT
+
+      - name: Get tag from branch
+        id: get_tag
+        if: ${{github.event.pull_request.merged  == true}}
+        run: echo ${{ steps.pr_is_merged.outputs.origin_branch }}
 
       - name: Check if PR is not merged
         id: pr_is_not_merged
