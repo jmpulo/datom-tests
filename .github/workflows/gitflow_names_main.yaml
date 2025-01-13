@@ -1,0 +1,22 @@
+name: Check branch name to merge main
+on:
+  pull_request:
+    branches:
+      - main
+jobs:
+  check_branch_name:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Get branch name
+        id: get_branch_name
+        run: |
+          echo "Getting the branch name"
+          branch_name=$(echo "${{ github.event.pull_request.head.ref }}" | grep -o '^[^/]*' )
+          if echo "$branch" | grep -qE '^(release|hotfix)\/\d+\.\d+\.\d+$'; then
+            echo "La rama es una release o hotfix con versión."
+          else
+            echo "La rama no coincide con el patrón."
+          fi
