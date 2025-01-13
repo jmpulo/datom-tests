@@ -18,5 +18,5 @@ jobs:
           if echo "$branch" | grep -qE '^(release|hotfix)\/\d+\.\d+\.\d+$'; then
             echo "La rama es una release o hotfix con versión."
           else
-            echo "La rama no coincide con el patrón."
+            echo "La rama no coincide con el patrón. test"
           fi
