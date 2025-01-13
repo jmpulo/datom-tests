@@ -20,13 +20,21 @@ jobs:
         # echo "origin_branch=${{ github.event.pull_request.head.ref }}" >> $GITHUB_OUTPUT
         run: |
           echo "This PR is merged, getting the branch name"
-          version=$(grep ${{ github.event.pull_request.head.ref }} | sed -E 's|.*/([0-9]+\.[0-9]+\.[0-9]+)|\1|' )
-          echo "Branch version -> $version"
+          version=$(echo "${{ github.event.pull_request.head.ref }}" | sed -E 's|.*/([0-9]+\.[0-9]+\.[0-9]+)|\1|' )
+          echo "version=$version" >> $GITHUB_OUTPUT
 
-      - name: Get tag from branch
-        id: get_tag
+      - name: Configure Git
+        run: |
+          git config --global user.name="${{ github.actor }}"
+
+      - name: Create Tag
         if: ${{github.event.pull_request.merged  == true}}
-        run: echo ${{ steps.pr_is_merged.outputs.origin_branch }} | sed -E 's|.*/([0-9]+\.[0-9]+\.[0-9]+)|\1|'
+        run: |
+          echo "Creating tag for version ${{ steps.pr_is_merged.outputs.version }}"
+          git tag -a ${{ steps.pr_is_merged.outputs.version }} -m "Release ${{ steps.pr_is_merged.outputs.version }}"
+          git push origin ${{ steps.pr_is_merged.outputs.version }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Check if PR is not merged
         id: pr_is_not_merged
