@@ -25,7 +25,7 @@ jobs:
 
       - name: Configure Git
         run: |
-          git config user.name "${{ github.actor }}"
+          git config user.name "GitHub Actions"
 
       - name: Create Tag
         if: ${{github.event.pull_request.merged  == true}}
@@ -34,6 +34,7 @@ jobs:
           git tag -a ${{ steps.pr_is_merged.outputs.version }} -m "Release ${{ steps.pr_is_merged.outputs.version }}"
       - name: Push Tag
         run: |
+          echo "pushing tag using token $GITHUB_TOKEN"
           git push origin ${{ steps.pr_is_merged.outputs.version }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
