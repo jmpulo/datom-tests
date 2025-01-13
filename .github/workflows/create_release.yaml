@@ -24,7 +24,7 @@ jobs:
       - name: Get tag from branch
         id: get_tag
         if: ${{github.event.pull_request.merged  == true}}
-        run: echo ${{ steps.pr_is_merged.outputs.origin_branch }}
+        run: echo ${{ steps.pr_is_merged.outputs.origin_branch }} | sed -E 's|.*/([0-9]+\.[0-9]+\.[0-9]+)|\1|'
 
       - name: Check if PR is not merged
         id: pr_is_not_merged
