@@ -8,8 +8,11 @@ on:
 jobs:
   set_tag:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     env:
       IS_MERGED: ${{ github.event.pull_request.merged }}
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -17,7 +20,6 @@ jobs:
       - name: Check if PR is merged
         id: pr_is_merged
         if: ${{github.event.pull_request.merged  == true}}
-        # echo "origin_branch=${{ github.event.pull_request.head.ref }}" >> $GITHUB_OUTPUT
         run: |
           echo "This PR is merged, getting the branch name"
           version=$(echo "${{ github.event.pull_request.head.ref }}" | sed -E 's|.*/([0-9]+\.[0-9]+\.[0-9]+)|\1|' )
@@ -36,8 +38,6 @@ jobs:
         run: |
           echo "pushing tag using token $GITHUB_TOKEN"
           git push origin ${{ steps.pr_is_merged.outputs.version }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Check if PR is not merged
         id: pr_is_not_merged
