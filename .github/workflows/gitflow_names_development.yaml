@@ -17,7 +17,7 @@ jobs:
           echo "Getting the branch name"
           branch_name=${{ github.event.pull_request.head.ref }}
           echo "Branch name is $branch_name"
-          if ! echo "$branch_name" | grep -qE '^(feature|bugfix)\/\d+\.\d+\.\d+$'; then
+          if ! echo "$branch_name" | grep -qE '^(feature|bugfix)\/\[0-9]+\.\[0-9]+\.\[0-9]+$'; then
             echo "Branch name is not in the correct format"
             exit 1
           fi
