@@ -1,5 +1,14 @@
 class Calculator:
     def add(self, x: int | float, y: int | float) -> int | float:
+        """Method to add two numbers
+
+        Args:
+            x (int | float): _description_
+            y (int | float): _description_
+
+        Returns:
+            int | float: _description_
+        """
 
         return x + y
 
