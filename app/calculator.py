@@ -10,6 +10,18 @@ class Calculator:
         return x * y
 
     def divide(self, x: int | float, y: int | float) -> int | float:
+        """_summary_
+
+        Args:
+            x (int | float): _description_
+            y (int | float): _description_
+
+        Raises:
+            ValueError: _description_
+
+        Returns:
+            int | float: _description_
+        """
         if y == 0:
             raise ValueError("Cannot divide by zero!")
         return x / y
