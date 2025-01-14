@@ -14,7 +14,18 @@ jobs:
         id: get_branch_name
         run: |
           echo "Getting the branch name"
-          branch_name=$(echo "${{ github.event.pull_request.head.ref }}" | grep -o '^[^/]*' )
-          if ! echo "$branch" | grep -qE '^(release|hotfix)\/\d+\.\d+\.\d+$'; then
+          branch_name=${{ github.event.pull_request.head.ref }}
+          if ! echo "$branch" | grep -qE '^(release|hotfix)\/[0-9]+\.[0-9]+\.[0-9]+$'; then
             echo "Branch name is not in the correct format"
             exit 1
+          fi
+  test_code:
+    runs-on: ubuntu-latest
+    needs: check_branch_name
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Run tests
+        run: |
+          echo "Running tests"
