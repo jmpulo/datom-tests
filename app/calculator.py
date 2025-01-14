@@ -11,5 +11,5 @@ class Calculator:
 
     def divide(self, x: int | float, y: int | float) -> int | float:
         if y == 0:
-            raise ValueError("Cannot divide by zero")
+            raise ValueError("Cannot divide by zero!")
         return x / y
