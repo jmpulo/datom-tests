@@ -20,3 +20,4 @@ jobs:
           if ! echo "$branch_name" | grep -qE '^(feature|bugfix)\/\d+\.\d+\.\d+$'; then
             echo "Branch name is not in the correct format"
             exit 1
+          fi
