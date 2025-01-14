@@ -10,13 +10,22 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-        # branch_name=$(echo "${{ github.event.pull_request.head.ref }}" | grep -o '^[^/]*' )
       - name: Validate branch name is feature or bugfix
         id: get_branch_name
         run: |
           echo "Getting the branch name"
           branch_name=${{ github.event.pull_request.head.ref }}
-          if ! echo "$branch_name" | grep -qE '^(feature|bugfix)\/[0-9]+\.[0-9]+\.[0-9]+$'; then
+          if ! echo "$branch_name" | grep -qE '^(feature|bugfix)\/.*$'; then
             echo "Branch name $branch_name is not in the correct format"
             exit 1
           fi
+  test_code:
+    runs-on: ubuntu-latest
+    needs: check_branch_name
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Run tests
+        run: |
+          echo "Running tests"

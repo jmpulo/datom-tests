@@ -19,3 +19,13 @@ jobs:
             echo "Branch name is not in the correct format"
             exit 1
           fi
+  test_code:
+    runs-on: ubuntu-latest
+    needs: check_branch_name
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Run tests
+        run: |
+          echo "Running tests"
