@@ -1,0 +1,20 @@
+name: Check branch name to merge main
+on:
+  pull_request:
+    branches:
+      - main
+jobs:
+  check_branch_name:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Validate branch name is release or hotfix
+        id: get_branch_name
+        run: |
+          echo "Getting the branch name"
+          branch_name=$(echo "${{ github.event.pull_request.head.ref }}" | grep -o '^[^/]*' )
+          if ! echo "$branch" | grep -qE '^(release|hotfix)\/\d+\.\d+\.\d+$'; then
+            echo "Branch name is not in the correct format"
+            exit 1
