@@ -13,3 +13,6 @@ class Calculator:
         if y == 0:
             raise ValueError("Cannot divide by zero")
         return x / y
+
+    def power(self, x: int | float, y: int | float) -> int | float:
+        return x**y
