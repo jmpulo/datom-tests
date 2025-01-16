@@ -46,8 +46,8 @@ jobs:
           curl -X POST \
             -H "Authorization: token $GITHUB_TOKEN" \
             -H "Accept: application/vnd.github.v3+json" \
-            -d "{\"tag_name\":\"$version\",\"name\":\"$version\",\"body\":\"$description\"}" \
-            https://api.github.com/repos/${{ github.repository }}/releases
+            https://api.github.com/repos/${{ github.repository }}/releases \
+            -d '{"tag_name":'"$version"',"name":'"$version"',"body":'"$description"'}'
 
       - name: Check if PR is not merged
         id: pr_is_not_merged
