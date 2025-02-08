@@ -29,13 +29,12 @@ jobs:
         if: ${{github.event.pull_request.merged  == true}}
         run: |
           git config --global user.name "Datom Actions"
-          git config --global user.name "actions@datom.com"
+          git config --global user.email "actions@datom.com"
           version=${{ steps.pr_is_merged.outputs.version }}
           echo "Creating tag for version $version"
           git checkout -m main
           git tag -a $version -m "Release $version"
           echo "Pushing tag to origin"
-          echo "pushing tag using token $GITHUB_TOKEN"
           git push origin $version
       - name: Create Release
         if: ${{github.event.pull_request.merged  == true}}
