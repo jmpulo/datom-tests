@@ -32,6 +32,7 @@ jobs:
           git config --global user.name "actions@datom.com"
           version=${{ steps.pr_is_merged.outputs.version }}
           echo "Creating tag for version $version"
+          git checkout -m main
           git tag -a $version -m "Release $version"
           echo "Pushing tag to origin"
           echo "pushing tag using token $GITHUB_TOKEN"
